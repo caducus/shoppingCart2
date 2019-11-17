@@ -1,4 +1,4 @@
-var Product = require("../models/products.js");
+var Product = require("../models/product.js");
 
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/shoppingCart2");

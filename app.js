@@ -23,7 +23,7 @@ app.set("view engine", ".hbs");
 const mongoDB_URI = "mongodb://localhost:27017/shoppingCart2";
 
 mongoose.connect(mongoDB_URI, {useNewUrlParser: true});
-moongose.connection.once("open", () => {
+mongoose.connection.once("open", () => {
   console.log("Connected to Mongoose.");
 });
 
