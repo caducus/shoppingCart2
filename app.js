@@ -1,11 +1,14 @@
+// =====================
+// Dependencies
+// =====================
+
+var cookieParser = require("cookie-parser");
 var createError = require("http-errors");
 var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
 var expressHbs = require("express-handlebars");
-
-var indexRouter = require("./routes/index");
+var logger = require("morgan");
+var mongoose = require("mongoose");
+var path = require("path");
 
 var app = express();
 
@@ -13,13 +16,40 @@ var app = express();
 app.engine(".hbs", expressHbs({defaultLayout: "layout", extname: ".hbs"}));
 app.set("view engine", ".hbs");
 
+// =========================
+// Configurations
+// =========================
+
+const mongoDB_URI = "mongodb://localhost:27017/shoppingCart2";
+
+mongoose.connect(mongoDB_URI, {useNewUrlParser: true});
+moongose.connection.once("open", () => {
+  console.log("Connected to Mongoose.");
+});
+
+// ==========================
+// Fix Deprecation Warnings
+// ==========================
+
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+
+// ==========================
+// Middleware
+// ==========================
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+var indexRouter = require("./routes/index");
 app.use("/", indexRouter);
+
+// ==========================
+// Error Handlers
+// ==========================
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -36,5 +66,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+// ==========================
+// Exports
+// ==========================
 
 module.exports = app;
