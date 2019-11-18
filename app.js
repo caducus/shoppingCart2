@@ -30,6 +30,8 @@ mongoose.connection.once("open", () => {
   console.log("Connected to Mongoose.");
 });
 
+require("./config/passport.js");
+
 // ==========================
 // Fix Deprecation Warnings
 // ==========================
