@@ -6,9 +6,12 @@ var cookieParser = require("cookie-parser");
 var createError = require("http-errors");
 var express = require("express");
 var expressHbs = require("express-handlebars");
+var flash = require("connect-flash");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var passport = require("passport");
 var path = require("path");
+var session = require("express-session");
 
 var app = express();
 
@@ -42,6 +45,12 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: "secret",
+                  resave: false,
+                  saveUninitialized: false }));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
 
 var indexRouter = require("./routes/index");
