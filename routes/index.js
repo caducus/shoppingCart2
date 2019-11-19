@@ -16,5 +16,9 @@ router.get("/", function(req, res, next) {
   });
 });
 
+router.get("/add-to-cart:id", function(req, res, next) {
+
+});
+
 /* Export */
 module.exports = router;
