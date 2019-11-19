@@ -35,3 +35,22 @@ passport.use("local.signup", new LocalStrategy ({
       });
     });
 }));
+
+passport.use("local.signin", new LocalStrategy ({
+  usernameField: "email",
+  passwordField: "password",
+  passReqToCallback: true
+  }, function (req, email, password, done) {
+    User.findOne({"email": email}, function(error, user) {
+      if (error) {
+        return done(error);
+      }
+      if (!user) {
+        return done(null, false, {message: "No user found."});
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, {message: "Wrong password."});
+      };
+      return done(null, user);
+  });
+}));

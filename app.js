@@ -12,6 +12,7 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var path = require("path");
 var session = require("express-session");
+var validator = require("express-validator");
 
 var app = express();
 
